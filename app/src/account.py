@@ -11,7 +11,6 @@ def gen_get_account_id_sql(name: str) -> Type[psycopg2.sql.Composed]:
     Returns:
         - a select sql statement
     """
-    # sqlstring = f"SELECT account_id FROM account WHERE name='{name}';"
     sqlstring = SQL(
         "SELECT account_id "
         "FROM account "
@@ -30,7 +29,6 @@ def gen_get_account_balance_sql(account_id: int) -> Type[psycopg2.sql.Composed]:
     Returns:
         - a select sql statement
     """
-    # sqlstring = f"SELECT balance FROM account WHERE account_id='{account_id}';"
     sqlstring = SQL(
         "SELECT balance "
         "FROM account "
@@ -50,7 +48,7 @@ def gen_insert_account_sql(name:str, balance: int = 0) -> Type[psycopg2.sql.Comp
     Returns:
         - a insert sql statement
     """
-    # sqlstring = f"INSERT INTO account(name, balance) VALUES ('{name}', '{balance}') RETURNING account_id;"
+    sqlstring = f"INSERT INTO account(name, balance) VALUES ('{name}', '{balance}') RETURNING account_id;"
     sqlstring = SQL(
         "INSERT INTO account(name, balance) "
         "VALUES "
@@ -60,6 +58,7 @@ def gen_insert_account_sql(name:str, balance: int = 0) -> Type[psycopg2.sql.Comp
         a_name=Literal(name),
         a_balance=Literal(balance)
     )
+
     return sqlstring
 
 def gen_update_account_balance_sql(account_id: int, amount: int, trans_type: str) -> Type[psycopg2.sql.Composed]:
@@ -93,11 +92,5 @@ def gen_update_account_balance_sql(account_id: int, amount: int, trans_type: str
         _set_balance=set_balance,
         a_id=Literal(account_id)
     )
-
-    # if type == "deposit" or type == "transfer_receive":
-    #     operator = "+"
-    # elif type == "withdraw" or type == "transfer_send":
-    #     operator = "-"
-    # sqlstring = f"UPDATE account SET balance=balance {operator} {amount} WHERE account_id='{account_id}';"
 
     return sqlstring
