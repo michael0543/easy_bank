@@ -2,6 +2,7 @@ import psycopg2
 from typing import Type
 from psycopg2.sql import SQL, Literal
 
+
 def gen_get_account_id_sql(name: str) -> Type[psycopg2.sql.Composed]:
     """Generate select account_id sql from account table with given name.
 
@@ -20,12 +21,15 @@ def gen_get_account_id_sql(name: str) -> Type[psycopg2.sql.Composed]:
     )
     return sqlstring
 
-def gen_get_account_balance_sql(account_id: int) -> Type[psycopg2.sql.Composed]:
+
+def gen_get_account_balance_sql(
+        account_id: int
+) -> Type[psycopg2.sql.Composed]:
     """Generate select balance sql from account table with given account_id
 
     Args:
         - account_id: account_id
-    
+
     Returns:
         - a select sql statement
     """
@@ -38,7 +42,10 @@ def gen_get_account_balance_sql(account_id: int) -> Type[psycopg2.sql.Composed]:
     )
     return sqlstring
 
-def gen_insert_account_sql(name:str, balance: int = 0) -> Type[psycopg2.sql.Composed]:
+
+def gen_insert_account_sql(
+        name: str, balance: int = 0
+) -> Type[psycopg2.sql.Composed]:
     """Generate insert sql into account table with given name and balance
 
     Args:
@@ -48,7 +55,6 @@ def gen_insert_account_sql(name:str, balance: int = 0) -> Type[psycopg2.sql.Comp
     Returns:
         - a insert sql statement
     """
-    sqlstring = f"INSERT INTO account(name, balance) VALUES ('{name}', '{balance}') RETURNING account_id;"
     sqlstring = SQL(
         "INSERT INTO account(name, balance) "
         "VALUES "
@@ -61,14 +67,19 @@ def gen_insert_account_sql(name:str, balance: int = 0) -> Type[psycopg2.sql.Comp
 
     return sqlstring
 
-def gen_update_account_balance_sql(account_id: int, amount: int, trans_type: str) -> Type[psycopg2.sql.Composed]:
-    """Generate update balance sql in account table with given account_id, update amount and update type
-    
+
+def gen_update_account_balance_sql(
+        account_id: int, amount: int, trans_type: str
+) -> Type[psycopg2.sql.Composed]:
+    """Generate update balance sql in account table with given \
+        account_id, update amount and update type
+
     Args:
         - account_id: account_id
         - amount: update amount
-        - type: transaction type. include 'deposit', 'withdraw', 'transfer_send', 'transfer_receive'
-    
+        - type: transaction type. include 'deposit', 'withdraw', \
+            'transfer_send', 'transfer_receive'
+
     Returns:
         - a update sql statement
     """

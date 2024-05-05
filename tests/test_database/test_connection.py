@@ -1,6 +1,3 @@
-import pytest
-import logging
-
 from app.database.connection import DataBase
 from app.models.account import AccountCreate
 from app.models.transaction import DepositCreate
@@ -21,6 +18,7 @@ def test_execute_select_one(setup_postgres):
     expect = ("Michael",)
     assert result == expect
 
+
 def test_execute_insert_sql(setup_postgres):
     db = DataBase(
         host=setup_postgres.get_dsn_parameters()["host"],
@@ -29,12 +27,14 @@ def test_execute_insert_sql(setup_postgres):
         password="postgres",
         dbname="postgres"
     )
-    insert_sql = "INSERT INTO account(name, balance) VALUES ('Lebron James', 0);"
+    insert_sql = "INSERT INTO account(name, balance) "\
+        "VALUES ('Lebron James', 0);"
     db.execute_insert(insert_sql)
     select_sql = "SELECT name FROM account WHERE name='Lebron James';"
     result = db.execute_select_one(select_sql)
     expect = ("Lebron James",)
     assert result == expect
+
 
 def test_get_account_id(setup_postgres):
     db = DataBase(
@@ -49,6 +49,7 @@ def test_get_account_id(setup_postgres):
     expect = 1
     assert result == expect
 
+
 def test_get_account_balance(setup_postgres):
     db = DataBase(
         host=setup_postgres.get_dsn_parameters()["host"],
@@ -62,6 +63,7 @@ def test_get_account_balance(setup_postgres):
     result = db.get_account_balance(account_id)
     expect = 1000
     assert result == expect
+
 
 def test_create_account(setup_postgres):
     db = DataBase(
