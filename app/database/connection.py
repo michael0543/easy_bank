@@ -64,7 +64,6 @@ class DataBase:
         result, = self.execute_select_one(select_sql)
         return result
 
-    # def create_account(self, account_data: AccountCreate) -> Account:
     def create_account(self, account_data: AccountCreate):
         """Insert new account data into account table"""
         insert_sql = gen_insert_account_sql(account_data.name, account_data.balance)
@@ -81,12 +80,10 @@ class DataBase:
         Insert deposit record into transaction table and update account table.
         """
         account_id = self.get_account_id(deposit_data.name)
-        # insert_transaction_sql = gen_insert_deposit_sql(account_id, deposit_data.amount)
         insert_transaction_sql = gen_insert_deposit_sql(
             account_id=account_id,
             amount=deposit_data.amount
         )
-        # update_account_sql = gen_update_account_balance_sql(account_id, deposit_data.amount, "deposit")
         update_account_sql = gen_update_account_balance_sql(
             account_id=account_id,
             amount=deposit_data.amount,
@@ -95,8 +92,7 @@ class DataBase:
         with get_connection(self.conn_info) as conn:
             with conn.cursor() as cur:
                 cur.execute(insert_transaction_sql)
-                # cur.execute(update_account_sql)
-                # r = cur.fetchone()
+                cur.execute(update_account_sql)
             conn.commit()
     
     def withdraw(self, withdraw_data: WithdrawCreate):
