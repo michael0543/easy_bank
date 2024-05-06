@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "easy-bank"
+version = "0.1.0"
+description = "This is a simple bank application that allows a user to create an account, deposit money, withdraw money, and transfer money."
+authors = ["Michael JF Tsai <michael0543@yahoo.com.tw>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.111.0"
+psycopg2-binary = "^2.9.9"
+pytest = "^8.2.0"
+testcontainers-postgres = "^0.0.1rc1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
