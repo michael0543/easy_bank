@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./app/schema/account.sql:/docker-entrypoint-initdb.d/account.sql
+      - ./app/schema/transaction.sql:/docker-entrypoint-initdb.d/transaction.sql
+      - .datastore:/var/lib/postgresql/data
+
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      port: "8000"
+      host: "0.0.0.0"
+      database_url: "postgresql+asyncpg://postgres:postgres@db:5432/postgres"
+    volumes:
+      - .:/app
