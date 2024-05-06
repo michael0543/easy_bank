@@ -14,6 +14,10 @@ use follow tools for unit test
 - Pytest
 - Testcontainer
 
+## Styling:
+
+- Flake8
+
 ## Available endpoints:
 
 - `POST /api/accounts/` - create new account
